@@ -1,0 +1,69 @@
+import kotlin.random.Random
+
+enum class Choice {
+    ROCK, PAPER, SCISSORS
+}
+
+fun getUserChoice(): Choice {
+    println("Выберите вариант:")
+    println("1. Камень")
+    println("2. Ножницы")
+    println("3. Бумага")
+    
+    when (readLine()) {
+        "1" -> return Choice.ROCK
+        "2" -> return Choice.SCISSORS
+        "3" -> return Choice.PAPER
+        else -> {
+            println("Неверный выбор, попробуйте еще раз.")
+            return getUserChoice()
+        }
+    }
+}
+
+fun getComputerChoice(): Choice {
+    val randomNum = Random.nextInt(3)
+    
+    return when (randomNum) {
+        0 -> Choice.ROCK
+        1 -> Choice.SCISSORS
+        else -> Choice.PAPER
+    }
+}
+
+fun determineWinner(userChoice: Choice, computerChoice: Choice) {
+    println("Ваш выбор: $userChoice")
+    println("Выбор компьютера: $computerChoice")
+    
+    if (userChoice == computerChoice) {
+        println("Ничья! Попробуйте еще раз.")
+    } else if (
+        (userChoice == Choice.ROCK && computerChoice == Choice.SCISSORS) ||
+        (userChoice == Choice.SCISSORS && computerChoice == Choice.PAPER) ||
+        (userChoice == Choice.PAPER && computerChoice == Choice.ROCK)
+    ) {
+        println("Вы победили!")
+    } else {
+        println("Компьютер победил!")
+    }
+}
+
+fun main() {
+    println("Добро пожаловать в игру Камень-Ножницы-Бумага!")
+    
+    while (true) {
+        val userChoice = getUserChoice()
+        val computerChoice = getComputerChoice()
+        
+        determineWinner(userChoice, computerChoice)
+        
+        println("Хотите сыграть еще раз? (y/n)")
+        val playAgain = readLine()
+        
+        if (playAgain?.toLowerCase() != "y") {
+            break
+        }
+    }
+    
+    println("Спасибо за игру!")
+}
